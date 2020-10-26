@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-version=0.9.2
+version=0.9.3
 version_text="Globus Xfr Script for Batch and Files v$version"
 
 prog_name=${0##*/}
@@ -221,24 +221,12 @@ create_batch_file_with_paths() {
 endpoint_activate() {
   # expects arg(s) as endpoint UUID codes; prints results
   for ep_id in ${*}; do
-
-    # from docs (instead of using --force):
-    #output="$(globus endpoint is-activated "$ep_id" \
-    #          --jmespath expires_in --format unix)"
-    #if [ $? -eq 0 ]; then
-    #    if [ "$output" -eq "-1" ]; then
-    #        echo "$ep_id is activated forever. Activation never expires."
-    #    else
-    #        echo "$ep_id activation expires in $output seconds"
-    #    fi
-    #else
-    #    echo "$ep_id not activated"
-    #    exit 1
-    #fi
-
-    ep_activate="globus endpoint activate --force $ep_id"
-    info "Executing '$ep_activate'"
-    info "$(eval "$ep_activate")"
+    ep_active="$(globus endpoint is-activated "$ep_id")"
+    if [ $? -eq 1 ]; then
+      ep_activate="globus endpoint activate --force $ep_id"
+      info "Executing '$ep_activate'"
+      info "$(eval "$ep_activate")"
+    fi
   done
 }
 
