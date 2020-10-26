@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-version=0.9.3
+version=0.10.0
 version_text="Globus Xfr Script for Batch and Files v$version"
 
 prog_name=${0##*/}
 options="h q v V D" # the basics...
 options+="c: n: s: p: t: d: b: B o f: " # app specifics
-help_text="Usage: $prog_name [-hqvV] [-c <config_file>] -n xfr_label #((see below for other options))
+help_text="Usage: gbxfr.sh [-hqvV] [-c <config_file>] -n xfr_label (...other required options...)
 
   ${version_text}
 
